@@ -39,21 +39,21 @@ $(document).ready(function(){
           trainName: trainName,
           destination: destination,
           firstTimeConverted: firstTimeConverted,
-          frequency: frequency
-          
+          frequency: frequency,
+          dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
 
-    })
+    });
 
 // Create a snapshot function on the child elements of the root database
     // To push data to the HTML every time a val changes
       database.ref().on("child_added", function(childSnapshot){
 
         var cSVal = childSnapshot.val();
-
+        console.log(cSVal.frequency);
         // Convert unix firstTime back from unix and perform necessary calculations
         var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted, "HH:mm");
-        console.log(moment(firstTimeConvertedBack));
+        console.log(firstTimeConvertedBack);
         // Find the current time
         var currentTime = moment().format("HH:mm");
         console.log(currentTime);
@@ -61,14 +61,14 @@ $(document).ready(function(){
         var timeDifference = moment().diff(moment(firstTimeConvertedBack), "minutes");
         console.log(timeDifference);
         // Use cSVal Frequency to divide and find remainder, then subtract from frequency to get min away
-        var timeRemainder = timeDifference % cSVal.frequency;
-        console.log(timeRemainder);
+        var timeRemainder = moment((parseInt(timeDifference) % parseInt(cSVal.frequency)), "minutes");
+        console.log(moment(timeRemainder).format("m"));
         var minutesAway = cSVal.frequency - timeRemainder;
-        minutesAway = moment(minutesAway, "minutes");
+        minutesAway = moment(minutesAway).format("m");
         console.log(minutesAway);
 
         var nextArrival = moment().add(minutesAway, "minutes");
-        nextArrival = moment(nextArrival).format("hh:mm A");
+        nextArrival = moment(nextArrival).format("h:mm A");
         console.log(nextArrival);
         // Create a new row for the table
         var newTableRow = $("<tr>");
