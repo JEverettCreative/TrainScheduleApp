@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Train Schedule</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+  </head>
 <body>
     <div class="container" id="contentWrapper">
-        <div class="jumbotron fluid">
+        <div class="jumbotron fluid text-center">
             <h1>The Crazy Train (Schedule)</h1>
             <h4>It's Not Going Off the Rails</h4>
         </div>
@@ -18,7 +19,7 @@
                 Train Schedule
             </div>
             <div class="row">
-                <table class="table">
+                <table class="table col-12">
                         <thead>
                           <tr>
                             <th scope="col">Train Name</th>
@@ -41,6 +42,34 @@
                     </div>
         </div>
 
+        <div class="col-12 card div-spacer">
+            <div class="row card-header bg-primary text-white">
+              Add a Train
+            </div>
+
+            <form>
+
+              <div class="form-group">
+                  <label for="trainNameInput">Train Name</label>
+                  <input type="text" class="form-control" id="train-name-input">
+              </div>
+              <div class="form-group">
+                  <label for="trainDestinationInput">Destination</label>
+                  <input type="text" class="form-control" id="train-dest-input">
+              </div>
+              <div class="form-group">
+                  <label for="trainStartInput">First Train Time (Military Time - HH:mm)</label>
+                  <input type="text" class="form-control" id="train-start-input">
+              </div>
+              <div class="form-group">
+                  <label for="trainFrequencyInput">Frequency (Min)</label>
+                  <input type="text" class="form-control" id="train-freq-input">
+              </div>
+
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+
+            </div>
     </div>
     
     
