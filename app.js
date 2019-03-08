@@ -52,7 +52,24 @@ $(document).ready(function(){
         var cSVal = childSnapshot.val();
 
         // Convert unix firstTime back from unix and perform necessary calculations
-        var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted).format("HH:mm");
+        var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted, "HH:mm");
+        console.log(moment(firstTimeConvertedBack));
+        // Find the current time
+        var currentTime = moment().format("HH:mm");
+        console.log(currentTime);
+        // Find the difference between the current time and the first time
+        var timeDifference = moment().diff(moment(firstTimeConvertedBack), "minutes");
+        console.log(timeDifference);
+        // Use cSVal Frequency to divide and find remainder, then subtract from frequency to get min away
+        var timeRemainder = timeDifference % cSVal.frequency;
+        console.log(timeRemainder);
+        var minutesAway = cSVal.frequency - timeRemainder;
+        minutesAway = moment(minutesAway, "minutes");
+        console.log(minutesAway);
+
+        var nextArrival = moment().add(minutesAway, "minutes");
+        nextArrival = moment(nextArrival).format("hh:mm A");
+        console.log(nextArrival);
         // Create a new row for the table
         var newTableRow = $("<tr>");
         // Create new data cells for each variable
@@ -60,17 +77,17 @@ $(document).ready(function(){
 
         var tableDestination = $("<td>").text(cSVal.destination);
 
-        var tableFirstTime = $("<td>").text(firstTimeConvertedBack);
+        var tableNextArrival = $("<td>").text(nextArrival);
 
         var tableFrequency = $("<td>").text(cSVal.frequency);
 
-        var tableMinAway = $("<td>").text("10");
+        var tableMinAway = $("<td>").text(minutesAway);
 
         // Append data cells to row and then row to #table-data
         $(newTableRow).append(tableTrainName)
                     .append(tableDestination)
-                    .append(tableFirstTime)
                     .append(tableFrequency)
+                   .append(tableNextArrival)
                     .append(tableMinAway);
         $("#table-data").append(newTableRow);
                   
