@@ -51,27 +51,35 @@ $(document).ready(function(){
 
         var cSVal = childSnapshot.val();
         console.log(cSVal.frequency);
+        
         // Convert unix firstTime back from unix and perform necessary calculations
-        var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted, "HH:mm");
+        var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted);
+        firstTimeConvertedBack = moment(firstTimeConvertedBack, "HH:mm");
         console.log(firstTimeConvertedBack);
+       
         // Find the current time
         var currentTime = moment().format("HH:mm");
         console.log(currentTime);
+        
         // Find the difference between the current time and the first time
         var timeDifference = moment().diff(moment(firstTimeConvertedBack), "minutes");
         console.log(timeDifference);
+        
         // Use cSVal Frequency to divide and find remainder, then subtract from frequency to get min away
-        var timeRemainder = moment((parseInt(timeDifference) % parseInt(cSVal.frequency)), "minutes");
-        console.log(moment(timeRemainder).format("m"));
-        var minutesAway = cSVal.frequency - timeRemainder;
-        minutesAway = moment(minutesAway).format("m");
+        var timeRemainder = parseInt(timeDifference) % parseInt(cSVal.frequency);
+        console.log(timeRemainder);
+        
+        var minutesAway = cSVal.frequency - timeRemainder; 
         console.log(minutesAway);
 
+        // Add minutes away to the current time in minutes to get next arrival
         var nextArrival = moment().add(minutesAway, "minutes");
         nextArrival = moment(nextArrival).format("h:mm A");
         console.log(nextArrival);
+        
         // Create a new row for the table
         var newTableRow = $("<tr>");
+        
         // Create new data cells for each variable
         var tableTrainName = $("<td>").text(cSVal.trainName);
 
@@ -93,7 +101,7 @@ $(document).ready(function(){
                   
 
       }, function(errorObject){
-        console.log("Errors encountered: " + errorCode);
+        console.log("Errors encountered: " + errorOject);
       })
 
 
