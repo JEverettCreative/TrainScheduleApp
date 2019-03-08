@@ -31,7 +31,6 @@ $(document).ready(function(){
     // Convert incoming first train time input into unix. Set it back 1 year to ensure it doesn't conflict w/ current time
         var firstTimeConverted = moment(firstTrainTime, "HH:mm");
         firstTimeConverted = moment(firstTimeConverted).format("X");
-        
 
 
         console.log(trainName, destination, firstTimeConverted, frequency);
@@ -48,18 +47,37 @@ $(document).ready(function(){
 
 // Create a snapshot function on the child elements of the root database
     // To push data to the HTML every time a val changes
-      // database.ref().on("child_added", function(childSnapshot){
+      database.ref().on("child_added", function(childSnapshot){
 
-      //   var cSVal = childSnapshot.val();
-      //   // Create a new row for the table
-      //   var newTableRow = $("<tr>");
-      //   // Create new data cells for each variable
-      //   var tableTrainName = $("<td>").
+        var cSVal = childSnapshot.val();
 
+        // Convert unix firstTime back from unix and perform necessary calculations
+        var firstTimeConvertedBack = moment.unix(cSVal.firstTimeConverted).format("HH:mm");
+        // Create a new row for the table
+        var newTableRow = $("<tr>");
+        // Create new data cells for each variable
+        var tableTrainName = $("<td>").text(cSVal.trainName);
 
-      // }, function(errorObject){
-      //   console.log("Errors encountered: " + errorCode);
-      // })
+        var tableDestination = $("<td>").text(cSVal.destination);
+
+        var tableFirstTime = $("<td>").text(firstTimeConvertedBack);
+
+        var tableFrequency = $("<td>").text(cSVal.frequency);
+
+        var tableMinAway = $("<td>").text("10");
+
+        // Append data cells to row and then row to #table-data
+        $(newTableRow).append(tableTrainName)
+                    .append(tableDestination)
+                    .append(tableFirstTime)
+                    .append(tableFrequency)
+                    .append(tableMinAway);
+        $("#table-data").append(newTableRow);
+                  
+
+      }, function(errorObject){
+        console.log("Errors encountered: " + errorCode);
+      })
 
 
 });
